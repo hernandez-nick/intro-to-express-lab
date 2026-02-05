@@ -32,12 +32,15 @@ app.get('/greetings/:username', (req, res) => {
 
 
 app.get('/roll/:number', (req, res) => {
-    const number = Number(req.params.number);
+    let msg;
+    const number = parseInt(req.params.number, 10);
     if (isNaN(number)) {
-        return res.send('You must specify a number.');
+        msg = 'You must specify a number.';
+    } else {
+        const roll = Math.floor(Math.random() * number) + 1;
+        msg = `You rolled a ${roll}.`;
     }
-    const roll = Math.floor(Math.random() * (number + 1));
-    res.send(`You rolled a ${roll}`);
+    res.send(msg);
 });
 
 
