@@ -58,25 +58,17 @@ app.get('/collectible/:index', (req, res) => {
 app.get('/shoes', (req, res) => {
     let filteredShoes = shoes;
 
-    const minPrice = parseFloat(req.query['min-price']);
-    const maxPrice = parseFloat(req.query['max-price']);
-    const type = req.query['type'];
-
-    if (!isNaN(minPrice)) {
-        filteredShoes = filteredShoes.filter(shoe => shoe.price >= minPrice);
-    }
-
-    if (!isNaN(maxPrice)) {
-        filteredShoes = filteredShoes.filter(shoe => shoe.price <= maxPrice);
-    }
-
-    if (type) {
-        filteredShoes = filteredShoes.filter(shoe => shoe.type.toLowerCase() === type.toLowerCase());
-    }
-
+    if (req.query['min-price']) {
+        filteredShoes = filteredShoes.filter(shoe => shoe.price >= Number(req.query['min-price'])); }
+    
+    if (req.query['max-price']) {
+        filteredShoes = filteredShoes.filter(shoe => shoe.price <= Number(req.query['max-price'])); }
+    
+    if(req.query.type) {
+        filteredShoes = filteredShoes.filter(shoe => shoe.type === req.query.type)}
+    
     res.json(filteredShoes);
 });
-
 
 
 app.listen(3000, () => {
